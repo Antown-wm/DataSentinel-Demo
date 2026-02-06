@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+neo4j
+sqlglot
+pydantic
+redis
+rq
