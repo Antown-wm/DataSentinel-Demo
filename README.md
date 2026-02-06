@@ -83,23 +83,21 @@
         ├── spark-job/                    # Spark ETL 作业
         │   ├── etl_job.py                # 离线血缘处理脚本
         │   ├── Dockerfile                # Spark 作业镜像
-        │   ├── submit.yaml               # 作业提交配置
-        │   └── submit-job.sh             # 作业提交脚本
+        │   └── submit.yaml               # 作业提交配置
         ├── spark/                        # Spark 集群
         │   ├── spark.yaml                # Master + Worker 部署
         │   └── submit.yaml               # 提交任务配置
         ├── neo4j/                        # 图数据库
-        │   ├── neo4j.yaml                # Neo4j StatefulSet 部署
-        │   └── neo4j.yaml                # 配置文件
+        │   └── neo4j.yaml                # Neo4j StatefulSet 部署
         ├── sentinel/                     # Schema 哨兵
         │   ├── sentinel.py               # 元数据巡检脚本
         │   ├── sentinel.yaml             # CronJob 部署清单
-        │   └── Dockerfile                # 哨兵镜像
+        │   ├── Dockerfile                # 哨兵镜像
+        │   └── neo4j.yaml                # Neo4j 服务配置
         ├── redis/                        # 消息队列
         │   └── redis.yaml                # Redis 部署清单
         └── minio/                        # 数据湖
-            ├── minio.yaml                # MinIO 部署清单
-            └── ConfigMap                 # MinIO 配置
+            └── minio.yaml                # MinIO 部署清单
 ```
 
 ## 核心功能
@@ -239,11 +237,14 @@ kubectl apply -f 源码文件/dataops-project/sentinel/sentinel.yaml
 #### 5. 提交 Spark ETL 作业
 
 ```bash
-# 从本地提交作业到集群
+# 提交 Spark 作业配置
 kubectl apply -f 源码文件/dataops-project/spark-job/submit.yaml
 
+# 查看 Spark Driver Pod
+kubectl get pods -l app=spark-etl
+
 # 查看作业执行日志
-kubectl logs -f <spark-driver-pod-name>
+kubectl logs -f spark-etl-driver
 ```
 
 #### 6. 访问系统
