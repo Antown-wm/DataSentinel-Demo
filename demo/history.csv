@@ -1,4 +1,0 @@
-id,sql_text
-1,INSERT INTO fact_orders SELECT * FROM raw_orders
-2,INSERT INTO report_daily SELECT sum(amount) FROM fact_orders
-3,INSERT INTO user_profile SELECT u.name, o.history FROM users u JOIN fact_orders o ON u.id=o.uid
