@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: schema-sentinel
+spec:
+  schedule: "*/1 * * * *" # 每分钟执行一次
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: sentinel
+            image: lineage-sentinel:v1
+            imagePullPolicy: Never
+          restartPolicy: OnFailure
